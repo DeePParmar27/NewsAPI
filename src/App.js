@@ -20,7 +20,7 @@ const App=()=> {
   
     return (
       <>
-      <Router>
+      <Router basename = "/NewsAPI">
           <NavBar />
 
           <LoadingBar
