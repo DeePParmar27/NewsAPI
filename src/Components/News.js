@@ -19,7 +19,7 @@ const News=(props)=> {
   
   
 
-const updatepage=async()=> 
+const updatepage=async(page)=> 
 {
 
 props.setProgress(0)
@@ -44,17 +44,44 @@ updatepage();
 },[])
 
 
-const handlePrevClick=()=>{
- setPage(page - 1)
- console.log(page);
- updatepage() 
+const handlePrevClick=async()=>{
+  setPage(page-1)
+  props.setProgress(0)
+  const url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&pagesize=${props.pageSize}&page=${page-1}`;
+  setLoading(true)
+  
+  let data= await fetch(url);
+  let parsedData=await data.json();
+  
+  
+  setArticle(parsedData.articles);
+  setTotalResults(parsedData.totalResults);
+  setLoading(false)
+  
+  props.setProgress(100)
+  
+  console.log(page)
 }
 
 
-const handleNextClick=()=>{
-  setPage(page + 1)
-  console.log(page);
-  updatepage()
+const handleNextClick=async()=>{
+  
+ 
+  props.setProgress(0)
+  const url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&pagesize=${props.pageSize}&page=${page+1}`;
+  setLoading(true)
+  
+  let data= await fetch(url);
+  let parsedData=await data.json();
+  
+  
+  setArticle(parsedData.articles);
+  setTotalResults(parsedData.totalResults);
+  setLoading(false)
+  
+  props.setProgress(100)
+  setPage(page+1)
+  console.log(page)
 }
 
 
